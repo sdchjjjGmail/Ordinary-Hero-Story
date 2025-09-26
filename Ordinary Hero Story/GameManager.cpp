@@ -334,12 +334,10 @@ void GameManager::StartBattle(Monster* InMonster)
 		if (TurnCalculator(InMonster, Turn) == 1)
 		{
 			BattleFinish = PlayerTurn(InMonster);
-			MonsterTurn(InMonster);
 		}
 		else 
 		{
 			MonsterTurn(InMonster);
-			BattleFinish = PlayerTurn(InMonster);
 		}
 		Turn++;
 	}
@@ -347,28 +345,34 @@ void GameManager::StartBattle(Monster* InMonster)
 
 int GameManager::TurnCalculator(Monster* InMonster, int InTurn)
 {
-	// 액터의 스피드 * 현재 턴 후 더 높은 수치를 가진 액터의 턴
-	// 만약 수치가 100을 넘을 경우 100을 뺀 후 수치 비교
-	int PlayerSpeed = Me()->GetSpeed() * InTurn;
-	int MonsterSpeed = InMonster->GetSpeed() * InTurn;
+	int PlayerSpeed = Me()->GetSpeed();
+	int MonsterSpeed = InMonster->GetSpeed();
+	// 속도가 동일할 경우 플레이어 선공
 	if (PlayerSpeed == MonsterSpeed)
 	{
 		return 1;
 	}
-	if (PlayerSpeed > 100)
-	{
-		PlayerSpeed -= 100;
-	}
-	if (MonsterSpeed > 100)
-	{
-		MonsterSpeed -= 100;
-	}
+	
 	printf("\nPlayerSpeed : %d, MonsterSpeed : %d\n", PlayerSpeed, MonsterSpeed);
 	if (PlayerSpeed > MonsterSpeed)
 	{
+		if (InTurn % 3 == 0)
+		{
+			// 턴이 3의 배수일 경우 속도가 느린 쪽이 선공
+			return 2;
+		}
 		return 1;
 	}
-	return 2;
+	else
+	{
+		if (InTurn % 3 == 0)
+		{
+			// 턴이 3의 배수일 경우 속도가 느린 쪽이 선공
+			return 1;
+		}
+		return 2;
+	}
+	
 }
 
 bool GameManager::PlayerTurn(Monster* InMonster)
