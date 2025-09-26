@@ -339,10 +339,12 @@ void GameManager::StartBattle(Monster* InMonster)
 		if (TurnCalculator(InMonster, Turn) == 1)
 		{
 			BattleFinish = PlayerTurn(InMonster);
+			MonsterTurn(InMonster);
 		}
 		else 
 		{
 			MonsterTurn(InMonster);
+			BattleFinish = PlayerTurn(InMonster);
 		}
 		Turn++;
 	}
