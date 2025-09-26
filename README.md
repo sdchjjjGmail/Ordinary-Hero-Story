@@ -46,6 +46,10 @@ GameManager 제외한 모든 클래스의 멤버 변수는 private으로 설정.
 해당하는 멤버 클래스의 함수를 통해서만 상위 클래스에 접근한다.
 (예: GameManager->PlayerManager()->GetCurrentPlayer() => Player* 반환)
 
+ - Actor
+   - 모든 캐릭터의 부모 클래스
+   - Player와 Monster가 공통으로 가지고 있는 능력치를 멤버 변수로 가지고 있다.
+   - 생성 시 기본 능력치는 모두 동일하지만 이후 각종 요소들로 차별을 둔다.
  - Player : Actor, ICanBattle
    - Main Player 클래스. 유저의 캐릭터가 담기는 클래스이다.
    - Player 클래스는 공격력, 방어력 등 플레이어의 수치와 관련된 변수만 관리한다.
