@@ -22,7 +22,7 @@ void GameTester::ShowPlayerStatPoints(Player* InPlayer)
 	printf("DP : %d\n", InPlayer->GetDefencePointStat());
 	printf("SP : %d\n", InPlayer->GetSpeedStat());
 	printf("CC : %d\n", InPlayer->GetCriticalChanceStat());
-	printf("CDR : %d\n", InPlayer->GetCriticalDamageRateStat());
+	//printf("CDR : %d\n", InPlayer->GetCriticalDamageRateStat());
 	printf("Stats : %d\n", InPlayer->GetAvailableStat());
 }
 
@@ -49,28 +49,28 @@ void GameTester::SetStatTest(PlayerManager* InMainPlayerManager, Player* InPlaye
 	{
 	case Stats::HitPoint:
 		InPlayer->SetHitPointStat(InPlayer->GetHitPointStat() + InStat);
-		InMainPlayerManager->SetPlayerHitPoint(InPlayer);
+		InMainPlayerManager->SetPlayerHitPoint();
 		break;
 	case Stats::AttackPoint:
 		InPlayer->SetAttackPointStat(InPlayer->GetAttackPointStat() + InStat);
-		InMainPlayerManager->SetPlayerAttackPoint(InPlayer);
+		InMainPlayerManager->SetPlayerAttackPoint();
 		break;
 	case Stats::DefencePoint:
 		InPlayer->SetDefencePointStat(InPlayer->GetDefencePointStat() + InStat);
-		InMainPlayerManager->SetPlayerDefencePoint(InPlayer);
+		InMainPlayerManager->SetPlayerDefencePoint();
 		break;
 	case Stats::Speed:
 		InPlayer->SetSpeedStat(InPlayer->GetSpeedStat() + InStat);
-		InMainPlayerManager->SetPlayerSpeed(InPlayer);
+		InMainPlayerManager->SetPlayerSpeed();
 		break;
 	case Stats::CriticalChance:
 		InPlayer->SetCriticalChanceStat(InPlayer->GetCriticalChanceStat() + InStat);
-		InMainPlayerManager->SetPlayerCriticalChance(InPlayer);
+		InMainPlayerManager->SetPlayerCriticalChance();
 		break;
-	case Stats::CriticalDamageRate:
-		InPlayer->SetCriticalDamageRateStat(InPlayer->GetCriticalDamageRateStat() + InStat);
-		InMainPlayerManager->SetPlayerCriticalDamageRate(InPlayer);
-		break;
+	//case Stats::CriticalDamageRate:
+	//	InPlayer->SetCriticalDamageRateStat(InPlayer->GetCriticalDamageRateStat() + InStat);
+	//	InMainPlayerManager->SetPlayerCriticalDamageRate();
+	//	break;
 	default:
 		break;
 	}
@@ -80,13 +80,11 @@ void GameTester::UpgradeTest(PlayerManager* InMainPlayerManager, Player* InPlaye
 {
 	for (int i = 0; i < InUpgradeCount; i++)
 	{
-		InMainPlayerManager->SetWeapon(InPlayer,
-			InMainPlayerManager->GetWeapon(InPlayer)->Upgrade());
+		InMainPlayerManager->SetWeapon(InMainPlayerManager->GetWeapon()->Upgrade());
 	}
 	for (int i = 0; i < InUpgradeCount; i++)
 	{
-		InMainPlayerManager->SetArmor(InPlayer,
-			InMainPlayerManager->GetArmor(InPlayer)->Upgrade());
+		InMainPlayerManager->SetArmor(InMainPlayerManager->GetArmor()->Upgrade());
 	}
 }
 

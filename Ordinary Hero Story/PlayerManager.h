@@ -10,33 +10,34 @@
 class PlayerManager
 {
 public:
-	void CreatePlayer();
+	PlayerManager() : CurrentPlayer(new Player()) {};
+	void SetPlayerWearings();
 
-	void SetWeapon(Player* InPlayer, Weapon* InWeapon);
-	void SetArmor(Player* InPlayer, Armor* InArmor);
-	void AddArtifact(Player* InPlayer, Artifact InArtifact);
-	void Attack(Player* InPlayer, Monster* InTarget);
+	void SetWeapon(Weapon* InWeapon);
+	void SetArmor(Armor* InArmor);
+	void AddArtifact(Artifact InArtifact);
+	void Attack(Monster* InTarget);
 
-	void SetPlayer(Player InPlayer)
-	{
-		CurrentPlayer = InPlayer;
-	}
-	void SetPlayerStat(Player* InPlayer, Stats InType, int InStat);
-	void SetPlayerHitPoint(Player* InPlayer);
-	void SetPlayerAttackPoint(Player* InPlayer);
-	void SetPlayerDefencePoint(Player* InPlayer);
-	void SetPlayerSpeed(Player* InPlayer);
-	void SetPlayerCriticalChance(Player* InPlayer);
-	void SetPlayerCriticalDamageRate(Player* InPlayer);
+	//void SetPlayer(Player* InPlayer)
+	//{
+	//	CurrentPlayer = InPlayer;
+	//}
+	void SetPlayerStat(Stats InType, int InStat);
+	void SetPlayerHitPoint();
+	void SetPlayerAttackPoint();
+	void SetPlayerDefencePoint();
+	void SetPlayerSpeed();
+	void SetPlayerCriticalChance();
+	//void SetPlayerCriticalDamageRate();
 
 	Player* GetCurrentPlayer()
 	{
-		return &CurrentPlayer;
+		return CurrentPlayer;
 	}
-	Weapon* GetWeapon(Player* InPlayer);
-	Armor* GetArmor(Player* InPlayer);
-	Artifact GetArtifact(Player* InPlayer);
+	Weapon* GetWeapon();
+	Armor* GetArmor();
+	Artifact GetArtifact();
 
 private:
-	Player CurrentPlayer;
+	Player* CurrentPlayer;
 };

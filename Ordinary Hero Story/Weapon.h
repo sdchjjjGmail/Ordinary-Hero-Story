@@ -7,7 +7,7 @@ class Weapon : public Item, public IUpgradable
 public:
 	Weapon()
 	{
-		AttackPoint = 10;
+		AttackPoint = 20;
 		UpgradeLevel = 0;
 		RequiredGoldForUpgrade = 0;
 	} 
@@ -46,7 +46,7 @@ public:
 	}
 
 private:
-	static constexpr int UpgradeValue = 5;
+	static constexpr int UpgradeValue = 10;
 
 	int AttackPoint;
 	int UpgradeLevel;

@@ -9,14 +9,14 @@
 class Player : public Actor, public ICanBattle
 {
 public:
-	Player() = default;
-	Player(int InLevel, int InMyGold)
+	Player()
 	{
-		Level = InLevel;
-		MyGold = InMyGold;
+		Level = 1;
+		MyGold = 50;
 		ExPoint = 0;
 		AvailableStat = 0;
 		RequiredExpForLvUp = 100;
+		FullHitPoint = 100;
 	};
 	virtual ~Player() {};
 
@@ -47,6 +47,10 @@ public:
 	{
 		return &PlayerWeapon;
 	}
+	int GetFullHitPoint()
+	{
+		return FullHitPoint;
+	}
 	Armor* GetPlayerArmor()
 	{
 		return &PlayerArmor;
@@ -65,7 +69,8 @@ public:
 		ExPoint += InPoint;
 		if (ExPoint >= RequiredExpForLvUp)
 		{
-			SetLevel(Level++);
+			printf("·¹º§¾÷!!\n");
+			SetLevel(Level += 1);
 			SetRequiredExpForLvUp();
 			SetAvailableStat(GetStatValue());
 		}
@@ -81,6 +86,10 @@ public:
 	void SetMyGold(int InMyGold)
 	{
 		MyGold = InMyGold;
+	}
+	void SetFullHitPoint(int InFullHitPoint)
+	{
+		FullHitPoint = InFullHitPoint;
 	}
 	void SetPlayerWeapon(Weapon* InWeapon)
 	{
@@ -101,6 +110,7 @@ private:
 	int RequiredExpForLvUp;
 	int AvailableStat;
 	int MyGold;
+	int FullHitPoint;
 	Weapon PlayerWeapon;
 	Armor PlayerArmor;
 	std::vector<Artifact> ArtifactList;

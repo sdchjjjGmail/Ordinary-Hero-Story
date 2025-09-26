@@ -3,33 +3,54 @@
 #include "PlayerManager.h"
 #include "MonsterManager.h"
 #include "MapManager.h"
+#include "Actor.h"
 #include "Player.h"
 #include "Monster.h"
 
 class GameManager
 {
 public:
-	GameManager(PlayerManager InPlayerManager,
-		MonsterManager InMonsterManager,
-		UiManager InUiManager,
-		MapManager InMapManager)
-		: MainPlayerManager(InPlayerManager),
-		EncounterMonsterManager(InMonsterManager),
-		GameUiManager(InUiManager),
-		GameMapManager(InMapManager) {};
-	
+	GameManager() 
+		: MainPlayerManager(new PlayerManager()),
+		EncounterMonsterManager(new MonsterManager()),
+		GameUiManager(new UiManager()),
+		GameMapManager(new MapManager())
+	{
+	};
+
 	void GameStart();
 	void RunGame();
 	bool EnterVilage();
 	bool EnterField();
+	void IncreaseStat(int InType);
 	void MoveForward();
 	bool EncounterMonster();
-	void StartBattle(Monster* Monster);
+	void StartBattle(Monster* InMonster);
+	int TurnCalculator(Monster* InMonster, int InTurn);
+	bool PlayerTurn(Monster* InMonster);
+	void MonsterTurn(Monster* InMonster);
+	int CalculateDamage();
+	int CalculateMonsterDamage(Monster* InMonster);
+	bool IsCritical();
+	bool IsMonsterCritical(Monster* InMonster);
 
 	bool PosibilityGenerator(int InPercentage);
 
-	PlayerManager MainPlayerManager;
-	MonsterManager EncounterMonsterManager;
-	UiManager GameUiManager;
-	MapManager GameMapManager;
+	Player* Me()
+	{
+		if (MainPlayerManager != nullptr && MainPlayerManager->GetCurrentPlayer() != nullptr)
+		{
+			return MainPlayerManager->GetCurrentPlayer();
+		}
+		else
+		{
+			// 게임 시작 직전 초기화를 진행 하기에 else로 빠질 수 없음
+			return new Player();
+		}
+	}
+
+	PlayerManager* MainPlayerManager;
+	MonsterManager* EncounterMonsterManager;
+	UiManager* GameUiManager;
+	MapManager* GameMapManager;
 };

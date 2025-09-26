@@ -3,7 +3,6 @@
 
 int main()
 {
-	GameManager* Manager 
-		= new GameManager(PlayerManager(),MonsterManager(), UiManager(), MapManager());
+	GameManager* Manager = new GameManager();
 	Manager->GameStart();
 }

@@ -1,128 +1,132 @@
 #include "PlayerManager.h"
 
-void PlayerManager::CreatePlayer()
+void PlayerManager::SetPlayerWearings()
 {
-	Player* MainPlayer = new Player(1, 50);
-	SetPlayer(*MainPlayer);
-	SetWeapon(MainPlayer, new Weapon());
-	SetArmor(MainPlayer, new Armor());
+	//Player* MainPlayer = new Player(1, 50);
+	//SetPlayer(*MainPlayer);
+	SetWeapon(new Weapon());
+	SetArmor(new Armor());
 }
 
-void PlayerManager::SetWeapon(Player* InPlayer, Weapon* InWeapon)
+void PlayerManager::SetWeapon(Weapon* InWeapon)
 {
-	InPlayer->SetPlayerWeapon(InWeapon);
-	SetPlayerAttackPoint(InPlayer);
+	GetCurrentPlayer()->SetPlayerWeapon(InWeapon);
+	SetPlayerAttackPoint();
 }
 
-void PlayerManager::SetArmor(Player* InPlayer, Armor* InArmor)
+void PlayerManager::SetArmor(Armor* InArmor)
 {
-	InPlayer->SetPlayerArmor(InArmor);
-	SetPlayerDefencePoint(InPlayer);
+	GetCurrentPlayer()->SetPlayerArmor(InArmor);
+	SetPlayerDefencePoint();
 }
 
-void PlayerManager::AddArtifact(Player* InPlayer, Artifact InArtifact)
+void PlayerManager::AddArtifact(Artifact InArtifact)
 {
 }
 
-void PlayerManager::Attack(Player* InPlayer, Monster* InTarget)
+void PlayerManager::Attack(Monster* InTarget)
 {
-	InPlayer->Attack(InTarget, InPlayer->GetAttackPoint());
+	GetCurrentPlayer()->Attack(InTarget, GetCurrentPlayer()->GetAttackPoint());
 }
 
-void PlayerManager::SetPlayerStat(Player* InPlayer, Stats InType ,int InStat)
+void PlayerManager::SetPlayerStat(Stats InType ,int InStat)
 {
 	switch(InType)
 	{
 	case Stats::HitPoint:
-		InPlayer->SetHitPointStat(InPlayer->GetHitPointStat() + InStat);
-		SetPlayerHitPoint(InPlayer);
+		GetCurrentPlayer()->SetHitPointStat(GetCurrentPlayer()->GetHitPointStat() + InStat);
+		SetPlayerHitPoint();
 		break;
 	case Stats::AttackPoint:
-		InPlayer->SetAttackPointStat(InPlayer->GetAttackPointStat() + InStat);
-		SetPlayerAttackPoint(InPlayer);
+		GetCurrentPlayer()->SetAttackPointStat(GetCurrentPlayer()->GetAttackPointStat() + InStat);
+		SetPlayerAttackPoint();
 		break;
 	case Stats::DefencePoint:
-		InPlayer->SetDefencePointStat(InPlayer->GetDefencePointStat() + InStat);
-		SetPlayerDefencePoint(InPlayer);
+		GetCurrentPlayer()->SetDefencePointStat(GetCurrentPlayer()->GetDefencePointStat() + InStat);
+		SetPlayerDefencePoint();
 		break;
 	case Stats::Speed:
-		InPlayer->SetSpeedStat(InPlayer->GetSpeedStat() + InStat);
-		SetPlayerSpeed(InPlayer);
+		GetCurrentPlayer()->SetSpeedStat(GetCurrentPlayer()->GetSpeedStat() + InStat);
+		SetPlayerSpeed();
 		break;
 	case Stats::CriticalChance:
-		InPlayer->SetCriticalChanceStat(InPlayer->GetCriticalChanceStat() + InStat);
-		SetPlayerCriticalChance(InPlayer);
+		GetCurrentPlayer()->SetCriticalChanceStat(GetCurrentPlayer()->GetCriticalChanceStat() + InStat);
+		SetPlayerCriticalChance();
 		break;
-	case Stats::CriticalDamageRate:
-		InPlayer->SetCriticalDamageRateStat(InPlayer->GetCriticalDamageRateStat() + InStat);
-		SetPlayerCriticalDamageRate(InPlayer);
-		break;
+	//case Stats::CriticalDamageRate:
+	//	GetCurrentPlayer()->SetCriticalDamageRateStat(GetCurrentPlayer()->GetCriticalDamageRateStat() + InStat);
+	//	SetPlayerCriticalDamageRate();
+	//	break;
 	default:
 		break;
 	}
 }
 
-void PlayerManager::SetPlayerHitPoint(Player* InPlayer)
+void PlayerManager::SetPlayerHitPoint()
 {
-	InPlayer->SetHitPoint(
-		InPlayer->GetOrgAttackPoint()
-		+ InPlayer->GetHitPointStat() * InPlayer->GetStatValue()
+	GetCurrentPlayer()->SetHitPoint(
+		GetCurrentPlayer()->GetOrgHitPoint()
+		+ GetCurrentPlayer()->GetHitPointStat() * GetCurrentPlayer()->GetStatValue()
+	);
+	GetCurrentPlayer()->SetFullHitPoint(
+		GetCurrentPlayer()->GetOrgHitPoint()
+		+ GetCurrentPlayer()->GetHitPointStat() * GetCurrentPlayer()->GetStatValue()
 	);
 }
 
-void PlayerManager::SetPlayerAttackPoint(Player* InPlayer)
+void PlayerManager::SetPlayerAttackPoint()
 {
-	InPlayer->SetAttackPoint(
-		InPlayer->GetOrgAttackPoint()
-		+ InPlayer->GetAttackPointStat() * InPlayer->GetStatValue()
-		+ GetWeapon(InPlayer)->GetAttackPoint()
+	GetCurrentPlayer()->SetAttackPoint(
+		GetCurrentPlayer()->GetOrgAttackPoint()
+		+ GetCurrentPlayer()->GetAttackPointStat() * GetCurrentPlayer()->GetStatValue()
+		+ GetWeapon()->GetAttackPoint()
 	);
 }
 
-void PlayerManager::SetPlayerDefencePoint(Player* InPlayer)
+void PlayerManager::SetPlayerDefencePoint()
 {
-	InPlayer->SetDefencePoint(
-		InPlayer->GetOrgDefencePoint()
-		+ InPlayer->GetDefencePointStat() * InPlayer->GetStatValue()
-		+ GetArmor(InPlayer)->GetDefencePoint()
+	GetCurrentPlayer()->SetDefencePoint(
+		GetCurrentPlayer()->GetOrgDefencePoint()
+		+ GetCurrentPlayer()->GetDefencePointStat() * GetCurrentPlayer()->GetStatValue()
+		+ GetArmor()->GetDefencePoint()
 	);
 }
 
-void PlayerManager::SetPlayerSpeed(Player* InPlayer)
+void PlayerManager::SetPlayerSpeed()
 {
-	InPlayer->SetSpeed(
-		InPlayer->GetSpeed()
-		+ InPlayer->GetSpeedStat() * InPlayer->GetStatValue()
+	GetCurrentPlayer()->SetSpeed(
+		GetCurrentPlayer()->GetSpeed()
+		+ GetCurrentPlayer()->GetSpeedStat() * GetCurrentPlayer()->GetStatValue()
 	);
 }
 
-void PlayerManager::SetPlayerCriticalChance(Player* InPlayer)
+void PlayerManager::SetPlayerCriticalChance()
 {
-	InPlayer->SetCriticalChance(
-		InPlayer->GetCriticalChance()
-		+ InPlayer->GetCriticalChanceStat() * InPlayer->GetStatValue()
+	GetCurrentPlayer()->SetCriticalChance(
+		GetCurrentPlayer()->GetCriticalChance()
+		+ GetCurrentPlayer()->GetCriticalChanceStat() * GetCurrentPlayer()->GetStatValue()
 	);
 }
 
-void PlayerManager::SetPlayerCriticalDamageRate(Player* InPlayer)
+//void PlayerManager::SetPlayerCriticalDamageRate()
+//{
+//	GetCurrentPlayer()->SetCriticalDamageRate(
+//		GetCurrentPlayer()->GetOrgCriticalDamageRate()
+//		+ GetCurrentPlayer()->GetCriticalDamageRateStat() * GetCurrentPlayer()->GetStatValue()
+//	);
+//}
+
+Weapon* PlayerManager::GetWeapon()
 {
-	InPlayer->SetCriticalDamageRate(
-		InPlayer->GetOrgCriticalDamageRate()
-		+ InPlayer->GetCriticalDamageRateStat() * InPlayer->GetStatValue()
-	);
+	return GetCurrentPlayer()->GetPlayerWeapon();
 }
 
-Weapon* PlayerManager::GetWeapon(Player* InPlayer)
+Armor* PlayerManager::GetArmor()
 {
-	return InPlayer->GetPlayerWeapon();
+	return GetCurrentPlayer()->GetPlayerArmor();
 }
 
-Armor* PlayerManager::GetArmor(Player* InPlayer)
-{
-	return InPlayer->GetPlayerArmor();
-}
-
-Artifact PlayerManager::GetArtifact(Player* InPlayer)
+Artifact PlayerManager::GetArtifact()
 {
 	return Artifact();
 }

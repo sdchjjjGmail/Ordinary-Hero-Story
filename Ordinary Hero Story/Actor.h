@@ -12,7 +12,7 @@ public:
 		DefencePointStat = 0;
 		SpeedStat = 0;
 		CriticalChanceStat = 0;
-		CriticalDamageRateStat = 0;
+		CriticalDamageRate = 2;
 	};
 
 	int GetStatValue() const
@@ -65,10 +65,10 @@ public:
 	{
 		return OrgCriticalChance;
 	}
-	int GetOrgCriticalDamageRate() const
-	{
-		return OrgCriticalDamageRate;
-	}
+	//int GetOrgCriticalDamageRate() const
+	//{
+	//	return OrgCriticalDamageRate;
+	//}
 
 	int GetHitPointStat() const
 	{
@@ -90,10 +90,10 @@ public:
 	{
 		return CriticalChanceStat;
 	}
-	int GetCriticalDamageRateStat() const
-	{
-		return CriticalDamageRateStat;
-	}
+	//int GetCriticalDamageRateStat() const
+	//{
+	//	return CriticalDamageRateStat;
+	//}
 	
 	void SetHitPoint(int InHitPoint)
 	{
@@ -115,10 +115,10 @@ public:
 	{
 		CriticalChance = InCriticalChance;
 	}
-	void SetCriticalDamageRate(int InCriticalDamageRate)
-	{
-		CriticalDamageRate = InCriticalDamageRate;
-	}
+	//void SetCriticalDamageRate(int InCriticalDamageRate)
+	//{
+	//	CriticalDamageRate = InCriticalDamageRate;
+	//}
 
 	void SetHitPointStat(int InStat)
 	{
@@ -140,10 +140,10 @@ public:
 	{
 		CriticalChanceStat = InStat;
 	}
-	void SetCriticalDamageRateStat(int InStat)
-	{
-		CriticalDamageRateStat = InStat;
-	}
+	//void SetCriticalDamageRateStat(int InStat)
+	//{
+	//	CriticalDamageRateStat = InStat;
+	//}
 
 private:
 	static constexpr int StatValue = 5;
@@ -152,7 +152,7 @@ private:
 	static constexpr int OrgDefencePoint = 10;
 	static constexpr int OrgSpeed = 15;
 	static constexpr int OrgCriticalChance = 15;
-	static constexpr int OrgCriticalDamageRate = 150;
+	static constexpr int OrgCriticalDamageRate = 2;
 
 	int HitPointStat;
 	int AttackPointStat;
@@ -166,5 +166,6 @@ private:
 	int DefencePoint = OrgDefencePoint;
 	int Speed = OrgSpeed;
 	int CriticalChance = OrgCriticalChance;
+	// 크리티컬 데미지는 2배로 고정
 	int CriticalDamageRate = OrgCriticalDamageRate;
 };

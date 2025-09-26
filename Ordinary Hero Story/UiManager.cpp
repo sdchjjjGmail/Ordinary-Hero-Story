@@ -10,10 +10,12 @@ string UiManager::ShowVilageUi()
 	while (!IsValidDecision(Input, false))
 	{
 		printf("----------마을----------\n");
-		printf("1. 대장간 방문\n");
-		printf("2. 물약 상점 방문\n");
-		printf("3. 필드로 이동\n");
-		printf("4. 게임 종료\n");
+		printf("1. 스테이터스\n");
+		printf("2. 스탯 확인\n");
+		printf("3. 대장간 방문\n");
+		printf("4. 물약 상점 방문\n");
+		printf("5. 필드로 이동\n");
+		printf("6. 게임 종료\n");
 		cin >> Input;
 	}
 	return Input;
@@ -28,8 +30,9 @@ string UiManager::ShowFieldUi()
 		printf("----------필드----------\n");
 		printf("1. 스테이터스\n");
 		printf("2. 장비\n");
-		printf("3. 마을로 이동\n");
-		printf("4. 게임 종료\n");
+		printf("3. 스탯 확인\n");
+		printf("4. 마을로 이동\n");
+		printf("5. 게임 종료\n");
 		cin >> Input;
 	}
 	return Input;
@@ -62,17 +65,17 @@ string UiManager::ShowPotionMarket()
 	return Input;
 }
 
-string UiManager::ShowBattleField(Player Player, Monster Monster)
+string UiManager::ShowBattleField(Monster* InMonster)
 {
 	string Input = "";
 	
 	while (!IsValidDecision(Input, false))
 	{
 		printf("\n");
-		printf("%s\n", Monster.GetName().c_str());
-		printf("%d\n", Monster.GetHitPoint());
-		printf("%d\n", Monster.GetAttackPoint());
-		printf("%d\n", Monster.GetDefencePoint());
+		printf("%s\n", InMonster->GetName().c_str());
+		printf("체력 %d\n", InMonster->GetHitPoint());
+		printf("공격력 %d\n", InMonster->GetAttackPoint());
+		printf("방어력 %d\n", InMonster->GetDefencePoint());
 		printf("----------------------------\n");
 		printf("1. 공격\n");
 		printf("2. 도망\n");
@@ -82,6 +85,66 @@ string UiManager::ShowBattleField(Player Player, Monster Monster)
 
 	return Input;
 }
+
+void UiManager::ShowMonsterStatus(Monster* InMonster)
+{
+	printf("Level : %d\n", InMonster->GetLevel());
+	printf("남은 체력 : %d\n", InMonster->GetHitPoint());
+	printf("공격력 : %d\n", InMonster->GetAttackPoint());
+	printf("방어력 : %d\n", InMonster->GetDefencePoint());
+	printf("속도 : %d\n", InMonster->GetSpeed());
+	printf("크리티컬 확률 : %d\n", InMonster->GetCriticalChance());
+	printf("크리티컬 데미지 : %d배\n", InMonster->GetCriticalDamageRate());
+}
+
+void UiManager::ShowStatus(Player* InPlayer)
+{
+	printf("\n**Player Info**\n");
+	printf("Level : %d\n", InPlayer->GetLevel());
+	printf("체력 : %d/%d\n", InPlayer->GetHitPoint(), InPlayer->GetFullHitPoint());
+	printf("공격력 : %d\n", InPlayer->GetAttackPoint());
+	printf("방어력 : %d\n", InPlayer->GetDefencePoint());
+	printf("속도 : %d\n", InPlayer->GetSpeed());
+	printf("크리티컬 확률 : %d\n", InPlayer->GetCriticalChance());
+	printf("크리티컬 데미지 : %d배\n", InPlayer->GetCriticalDamageRate());
+	printf("골드 : %d\n", InPlayer->GetMyGold());
+	printf("Exp : %d/%d\n", InPlayer->GetExp(), InPlayer->GetRequiredExpForLvUp());
+	printf("\n");
+}
+
+string UiManager::ShowStatPoints(Player* InPlayer)
+{
+	string Input = "";
+
+	while (!IsValidDecision(Input, false))
+	{
+		printf("\n**Player Stat Points**\n");
+		printf("1. 체력 : +%d\n", InPlayer->GetHitPointStat());
+		printf("2. 공격력 : +%d\n", InPlayer->GetAttackPointStat());
+		printf("3. 방어력 : +%d\n", InPlayer->GetDefencePointStat());
+		printf("4. 속도 : +%d\n", InPlayer->GetSpeedStat());
+		printf("5. 크리티컬 확률 : +%d\n", InPlayer->GetCriticalChanceStat());
+		printf("스탯포인트 : %d\n", InPlayer->GetAvailableStat());
+		printf("올리고 싶은 능력치를 선택해 주세요 : ");
+		cin >> Input;
+	}
+	return Input;
+}
+
+void UiManager::ShowWearings(Player* InPlayer)
+{
+	printf("\nWeapon Info\n");
+	printf("Upgraded : %d\n", InPlayer->GetPlayerWeapon()->GetUpgradeLevel());
+	printf("AP : %d\n", InPlayer->GetPlayerWeapon()->GetAttackPoint());
+	printf("Gold For Upgrade : %d\n", InPlayer->GetPlayerWeapon()->GetRequiredGoldForUpgrade());
+
+	printf("\nArmor Info\n");
+	printf("Upgraded : %d\n", InPlayer->GetPlayerArmor()->GetUpgradeLevel());
+	printf("DP : %d\n", InPlayer->GetPlayerArmor()->GetDefencePoint());
+	printf("Gold For Upgrade : %d\n", InPlayer->GetPlayerArmor()->GetRequiredGoldForUpgrade());
+}
+
+
 
 bool UiManager::IsValidDecision(string InValue, bool IsField)
 {
@@ -93,6 +156,6 @@ bool UiManager::IsValidDecision(string InValue, bool IsField)
 		|| InValue == "2" 
 		|| InValue == "3" 
 		|| InValue == "4" 
-		|| InValue == "5";
+		|| InValue == "5"
+		|| InValue == "6";
 }
-
