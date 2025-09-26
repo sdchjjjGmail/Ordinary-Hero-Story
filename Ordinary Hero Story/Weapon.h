@@ -2,14 +2,14 @@
 #include "Item.h"
 #include "IUpgradable.h"
 
-class Weapon : public Item, public IUpgradable
+class Weapon : public IUpgradable
 {
 public:
 	Weapon()
 	{
 		AttackPoint = 20;
 		UpgradeLevel = 0;
-		RequiredGoldForUpgrade = 0;
+		RequiredGoldForUpgrade = 20;
 	} 
 	virtual ~Weapon() {};
 

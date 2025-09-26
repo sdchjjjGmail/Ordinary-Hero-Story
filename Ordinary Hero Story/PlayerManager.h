@@ -6,6 +6,7 @@
 #include "Stats.h"
 #include "ICanBattle.h"
 #include "Monster.h"
+#include "Potion.h"
 
 class PlayerManager
 {
@@ -29,6 +30,8 @@ public:
 	void SetPlayerSpeed();
 	void SetPlayerCriticalChance();
 	//void SetPlayerCriticalDamageRate();
+
+	void UsePotion(Potion* InPotion);
 
 	Player* GetCurrentPlayer()
 	{

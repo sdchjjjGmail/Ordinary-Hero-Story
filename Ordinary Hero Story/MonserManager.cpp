@@ -2,12 +2,21 @@
 #include <random>
 #include <string>
 
-Monster* MonsterManager::CreateMonster(Player InPlayer, Field InCurrentField)
+Monster* MonsterManager::CreateMonster(Player* InPlayer, Field InCurrentField)
 {
     switch (InCurrentField)
     {
     case Field::Field1:
-        return CreateField1Monster(&InPlayer);
+        return CreateField1Monster(InPlayer);
+        break;
+    case Field::Field2:
+        return CreateField2Monster(InPlayer);
+        break;
+    case Field::Field3:
+        return CreateField3Monster(InPlayer);
+        break;
+    case Field::BossField:
+        return CreateBoss(InPlayer);
         break;
     default:
         break;
@@ -37,7 +46,7 @@ Monster* MonsterManager::CreateField2Monster(Player* InPlayer)
     Monster* CreatedMonster = new Monster(
         "숲 고블린",
         GnerateLevel(InPlayer->GetLevel(), InPlayer->GetLevel() + 1),
-        GnerateDropGold(InPlayer->GetLevel() * 10, InPlayer->GetLevel() * 30)
+        GnerateDropGold(InPlayer->GetLevel() * 20, InPlayer->GetLevel() * 50)
     );
     CreatedMonster->SetHitPoint(CreatedMonster->GetHitPoint() + CreatedMonster->GetLevel() * CreatedMonster->GetStatValue());
     CreatedMonster->SetAttackPoint(CreatedMonster->GetAttackPoint() + CreatedMonster->GetLevel() * CreatedMonster->GetStatValue());
@@ -45,7 +54,7 @@ Monster* MonsterManager::CreateField2Monster(Player* InPlayer)
     CreatedMonster->SetSpeed(CreatedMonster->GetSpeed() + CreatedMonster->GetLevel() * CreatedMonster->GetStatValue());
     // 숲 고블린의 특성은 높은 크리티컬 확률과 드랍 골드
     CreatedMonster->SetCriticalChance(CreatedMonster->GetCriticalChance() + CreatedMonster->GetLevel() * CreatedMonster->GetStatValue() + 15);
-    CreatedMonster->SetDropExp(CreatedMonster->GetLevel() * 100);
+    CreatedMonster->SetDropExp(CreatedMonster->GetLevel() * 50);
     return CreatedMonster;
 }
 
@@ -62,6 +71,22 @@ Monster* MonsterManager::CreateField3Monster(Player* InPlayer)
     CreatedMonster->SetDefencePoint(CreatedMonster->GetDefencePoint() + CreatedMonster->GetLevel() * CreatedMonster->GetStatValue());
     CreatedMonster->SetSpeed(CreatedMonster->GetSpeed() + CreatedMonster->GetLevel() * CreatedMonster->GetStatValue());
     CreatedMonster->SetDropExp(CreatedMonster->GetLevel() * 50);
+    return CreatedMonster;
+}
+
+Monster* MonsterManager::CreateBoss(Player* InPlayer)
+{
+    Monster* CreatedMonster = new Monster(
+        "오크 킹",
+        GnerateLevel(InPlayer->GetLevel(), InPlayer->GetLevel() + 1),
+        GnerateDropGold(InPlayer->GetLevel() * 10, InPlayer->GetLevel() * 30)
+    );
+    // 전체적으로 높은 스탯의 보스
+    CreatedMonster->SetHitPoint(CreatedMonster->GetHitPoint() + CreatedMonster->GetLevel() * (CreatedMonster->GetStatValue() + 5));
+    CreatedMonster->SetAttackPoint(CreatedMonster->GetAttackPoint() + (CreatedMonster->GetLevel() * CreatedMonster->GetStatValue() + 5));
+    CreatedMonster->SetDefencePoint(CreatedMonster->GetDefencePoint() + (CreatedMonster->GetLevel() * CreatedMonster->GetStatValue() + 5));
+    CreatedMonster->SetSpeed(CreatedMonster->GetSpeed() + CreatedMonster->GetLevel() * (CreatedMonster->GetStatValue() + 2));
+    CreatedMonster->SetDropExp(CreatedMonster->GetLevel() * 100);
     return CreatedMonster;
 }
 

@@ -6,10 +6,11 @@
 class MonsterManager
 {
 public:
-	Monster* CreateMonster(Player Player, Field InCurrentField);
+	Monster* CreateMonster(Player* Player, Field InCurrentField);
 	Monster* CreateField1Monster(Player* Player);
 	Monster* CreateField2Monster(Player* InPlayer);
 	Monster* CreateField3Monster(Player* InPlayer);
+	Monster* CreateBoss(Player* InPlayer);
 	int GnerateLevel(int InMin, int InMax);
 	int GnerateDropGold(int InMin, int InMax);
 	int GnerateDropExp(int InMin, int InMax);

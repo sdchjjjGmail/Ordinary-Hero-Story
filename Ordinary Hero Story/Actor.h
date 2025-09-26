@@ -12,7 +12,6 @@ public:
 		DefencePointStat = 0;
 		SpeedStat = 0;
 		CriticalChanceStat = 0;
-		CriticalDamageRate = 2;
 	};
 
 	int GetStatValue() const
@@ -146,7 +145,9 @@ public:
 	//}
 
 private:
+	// 레벨업 시 5개의 스탯 포인트 추가
 	static constexpr int StatValue = 5;
+
 	static constexpr int OrgHitPoint = 100;
 	static constexpr int OrgAttackPoint = 20;
 	static constexpr int OrgDefencePoint = 10;
@@ -159,7 +160,7 @@ private:
 	int DefencePointStat;
 	int SpeedStat;
 	int CriticalChanceStat;
-	int CriticalDamageRateStat;
+	//int CriticalDamageRateStat;
 
 	int HitPoint = OrgHitPoint;
 	int AttackPoint = OrgAttackPoint;

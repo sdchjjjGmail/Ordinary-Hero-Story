@@ -78,6 +78,9 @@
     <ClInclude Include="MonsterManager.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
+    <ClInclude Include="Potion.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Player.cpp">
@@ -126,6 +129,9 @@
       <Filter>소스 파일</Filter>
     </ClCompile>
     <ClCompile Include="MonserManager.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="Potion.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
   </ItemGroup>

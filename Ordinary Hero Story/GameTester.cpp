@@ -88,4 +88,17 @@ void GameTester::UpgradeTest(PlayerManager* InMainPlayerManager, Player* InPlaye
 	}
 }
 
-
+// 테스트용 치트 모드
+// 캐릭터의 전반적인 능력치와 골드 대폭 증가
+void GameTester::SetCheat(Player* InPlayer)
+{
+	printf("Cheat Mode!\n");
+	InPlayer->SetLevel(50);
+	InPlayer->SetFullHitPoint(999);
+	InPlayer->SetHitPoint(999);
+	InPlayer->SetAttackPoint(999);
+	InPlayer->SetDefencePoint(999);
+	InPlayer->SetSpeed(100);
+	InPlayer->SetCriticalChance(100);
+	InPlayer->SetMyGold(1000000);
+}

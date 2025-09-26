@@ -17,6 +17,7 @@ public:
 		AvailableStat = 0;
 		RequiredExpForLvUp = 100;
 		FullHitPoint = 100;
+		PotionCount = 0;
 	};
 	virtual ~Player() {};
 
@@ -47,7 +48,7 @@ public:
 	{
 		return &PlayerWeapon;
 	}
-	int GetFullHitPoint()
+	int GetFullHitPoint() const
 	{
 		return FullHitPoint;
 	}
@@ -59,6 +60,10 @@ public:
 	{
 		return ArtifactList;
 	}
+	int GetPotionCount() const
+	{
+		return PotionCount;
+	}
 
 	void SetLevel(int InLevel)
 	{
@@ -69,15 +74,12 @@ public:
 		ExPoint += InPoint;
 		if (ExPoint >= RequiredExpForLvUp)
 		{
-			printf("·¹º§¾÷!!\n");
-			SetLevel(Level += 1);
-			SetRequiredExpForLvUp();
 			SetAvailableStat(GetStatValue());
 		}
 	}
 	void SetRequiredExpForLvUp()
 	{
-		RequiredExpForLvUp += Level * 100;
+		RequiredExpForLvUp += Level * 70;
 	}
 	void SetAvailableStat(int InStat)
 	{
@@ -90,6 +92,10 @@ public:
 	void SetFullHitPoint(int InFullHitPoint)
 	{
 		FullHitPoint = InFullHitPoint;
+	}
+	void SetPotionCount(int InCount)
+	{
+		PotionCount = InCount;
 	}
 	void SetPlayerWeapon(Weapon* InWeapon)
 	{
@@ -111,6 +117,7 @@ private:
 	int AvailableStat;
 	int MyGold;
 	int FullHitPoint;
+	int PotionCount;
 	Weapon PlayerWeapon;
 	Armor PlayerArmor;
 	std::vector<Artifact> ArtifactList;

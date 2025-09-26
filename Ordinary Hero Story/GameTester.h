@@ -12,4 +12,5 @@ public:
 	void ShowPlayerArtifactList(Player* InPlayer);
 	void SetStatTest(PlayerManager* InMainPlayerManager, Player* InPlayer, Stats InType, int InStat);
 	void UpgradeTest(PlayerManager* InMainPlayerManager, Player* InPlayer, int InUpgradeCount);
+	void SetCheat(Player* InPlayer);
 };

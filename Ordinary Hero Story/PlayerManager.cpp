@@ -2,8 +2,6 @@
 
 void PlayerManager::SetPlayerWearings()
 {
-	//Player* MainPlayer = new Player(1, 50);
-	//SetPlayer(*MainPlayer);
 	SetWeapon(new Weapon());
 	SetArmor(new Armor());
 }
@@ -106,6 +104,28 @@ void PlayerManager::SetPlayerCriticalChance()
 		GetCurrentPlayer()->GetCriticalChance()
 		+ GetCurrentPlayer()->GetCriticalChanceStat() * GetCurrentPlayer()->GetStatValue()
 	);
+}
+
+void PlayerManager::UsePotion(Potion* InPotion)
+{
+	if (GetCurrentPlayer()->GetPotionCount() <= 0)
+	{
+		printf("포션이 부족합니다..\n");
+	}
+	else
+	{
+		printf("%d의 체력을 회복합니다.\n", InPotion->GetHealAmount());
+		if (GetCurrentPlayer()->GetHitPoint() + InPotion->GetHealAmount() > GetCurrentPlayer()->GetFullHitPoint())
+		{
+			GetCurrentPlayer()->SetHitPoint(GetCurrentPlayer()->GetFullHitPoint());
+		}
+		else
+		{
+			GetCurrentPlayer()->SetHitPoint(
+				GetCurrentPlayer()->GetHitPoint() + InPotion->GetHealAmount());
+		}
+		GetCurrentPlayer()->SetPotionCount(GetCurrentPlayer()->GetPotionCount() - 1);
+	}
 }
 
 //void PlayerManager::SetPlayerCriticalDamageRate()

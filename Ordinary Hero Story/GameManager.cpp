@@ -27,7 +27,7 @@ void GameManager::RunGame()
 		{
 			break;
 		}
-		if (EnterField())
+		if (EnterField(GameMapManager->GetCurrentMap()))
 		{
 			break;
 		}
@@ -36,39 +36,68 @@ void GameManager::RunGame()
 
 bool GameManager::EnterVilage()
 {
+	printf("마을에 입장했습니다.\n");
+	printf("이곳에서는 장비 강화와 물약 구매가 가능하며,\n");
+
 	GameMapManager->SetCurrentMap(Field::Vilage);
 	bool Out = false;
 	bool GameEnd = false;
 	while(!Out)
 	{
-		int Flag = stoi(GameUiManager->ShowVilageUi());
+		int Flag = stoi(GameUiManager->ShowVilageUi(Me()));
 
 		switch (Flag)
 		{
 		case 1:
 			// 스테이터스 확인
-			GameUiManager->ShowStatus(MainPlayerManager->GetCurrentPlayer());
+			GameUiManager->ShowStatus(Me());
 			break;
 		case 2:
 			// 스탯포인트 확인 및 사용
-			IncreaseStat(stoi(GameUiManager->ShowStatPoints(MainPlayerManager->GetCurrentPlayer())));
+			IncreaseStat(stoi(GameUiManager->ShowStatPoints(Me())));
 			break;
 		case 3:
-			// 대장간 입장 및 장비 강화
-			printf("대장간 입장!\n");
+			// 장비 확인
+			GameUiManager->ShowWearings(Me());
 			break;
 		case 4:
-			// 물약 상점 입장 및 물약 구매
-			printf("물약 상점!\n");
+			// 대장간 입장 및 장비 강화
+			MoveToBlackSmith(stoi(GameUiManager->ShowBlackSmith(
+				Me()->GetPlayerWeapon(), Me()->GetPlayerArmor())));
 			break;
 		case 5:
-			// 필드로 이동
-			Out = true;
+			// 물약 상점 입장 및 물약 구매
+			MoveToPotionMarket(stoi(GameUiManager->ShowPotionMarket(HealingPotion)));
 			break;
 		case 6:
+			// 필드로 이동
+			GameMapManager->SetCurrentMap(Field::Field1);
+			Out = true;
+			break;
+		case 7:
+			// 필드로 이동
+			GameMapManager->SetCurrentMap(Field::Field2);
+			Out = true;
+			break;
+		case 8:
+			// 필드로 이동
+			GameMapManager->SetCurrentMap(Field::Field3);
+			Out = true;
+			break;
+		case 9:
+			// 보스로 이동
+			GameMapManager->SetCurrentMap(Field::BossField);
+			Out = true;
+			break;
+		case 0:
 			// 게임 종료
 			Out = true;
 			GameEnd = true;
+			break;
+		case 157:
+			// 테스트용 치트 모드 플래그
+			GameTester Tester;
+			Tester.SetCheat(Me());
 			break;
 		default:
 			// 그 외 입력 불가
@@ -79,11 +108,67 @@ bool GameManager::EnterVilage()
 	return GameEnd;
 }
 
-bool GameManager::EnterField()
+void GameManager::MoveToBlackSmith(int InChoice)
+{
+	if (InChoice == 1)
+	{
+		if (Me()->GetMyGold() < Me()->GetPlayerWeapon()->GetRequiredGoldForUpgrade())
+		{
+			printf("골드가 부족합니다!");
+			return;
+		}
+		Me()->SetMyGold(
+			Me()->GetMyGold()
+			- Me()->GetPlayerWeapon()->GetRequiredGoldForUpgrade()
+		);
+		
+		Me()->GetPlayerWeapon()->Upgrade();
+	}
+
+	if (InChoice == 2)
+	{
+		if (Me()->GetMyGold() < Me()->GetPlayerArmor()->GetRequiredGoldForUpgrade())
+		{
+			printf("골드가 부족합니다!");
+			return;
+		}
+		Me()->SetMyGold(
+			Me()->GetMyGold()
+			- Me()->GetPlayerArmor()->GetRequiredGoldForUpgrade()
+		);
+
+		Me()->GetPlayerArmor()->Upgrade();
+	}
+}
+
+void GameManager::MoveToPotionMarket(int InChoice)
+{
+	int Amount = 0;
+	if (InChoice == 1)
+	{
+		printf("구매할 양을 입력하세요.\n");
+		cin >> Amount;
+		if (Amount < 0)
+		{
+			printf("정상적인 양을 입력하세요.\n");
+		}
+		else if (HealingPotion->GetPrice() * Amount > Me()->GetMyGold())
+		{
+			printf("골드가 부족합니다..\n");
+		}
+		else 
+		{
+			Me()->SetMyGold(Me()->GetMyGold() - HealingPotion->GetPrice() * Amount);
+			Me()->SetPotionCount(Amount);
+		}
+	}
+}
+
+bool GameManager::EnterField(Field InField)
 {
 	printf("\n필드에 입장했습니다!\n");
 	printf("d 키를 입력하여 앞으로 이동하세요.\n");
-	GameMapManager->SetCurrentMap(Field::Field1);
+	//GameMapManager->SetCurrentMap(InField);
 	bool Out = false;
 	bool GameEnd = false;
 
@@ -98,7 +183,8 @@ bool GameManager::EnterField()
 			{
 				printf("캐릭터의 체력이 모두 떨어졌습니다.\n");
 				printf("절반의 체력으로 마을에서 부활합니다.\n");
-				//Me()->
+				Me()->SetHitPoint(Me()->GetFullHitPoint() / 2);
+				EnterVilage();
 			}
 			continue;
 		}
@@ -111,21 +197,30 @@ bool GameManager::EnterField()
 		{
 		case 1:
 			// 스테이터스 확인
-			GameUiManager->ShowStatus(MainPlayerManager->GetCurrentPlayer());
+			GameUiManager->ShowStatus(Me());
 			break;
 		case 2:
 			// 장비 확인
-			GameUiManager->ShowWearings(MainPlayerManager->GetCurrentPlayer());
+			GameUiManager->ShowWearings(Me());
 			break;
 		case 3:
 			// 스탯포인트 확인 및 사용
-			IncreaseStat(stoi(GameUiManager->ShowStatPoints(MainPlayerManager->GetCurrentPlayer())));
+			IncreaseStat(stoi(GameUiManager->ShowStatPoints(Me())));
 			break;
 		case 4:
+			// 포션 사용
+			if (Me()->GetHitPoint() == Me()->GetFullHitPoint())
+			{
+				printf("체력이 가득 차있습니다.\n");
+				break;
+			}
+			MainPlayerManager->UsePotion(HealingPotion);
+			break;
+		case 5:
 			// 마을로 이동
 			Out = true;
 			break;
-		case 5:
+		case 0:
 			// 게임 종료
 			Out = true;
 			GameEnd = true;
@@ -168,7 +263,7 @@ void GameManager::IncreaseStat(int InType)
 		printf("스탯 값을 입력해 주세요(0 입력 시 취소.) : ");
 		cin >> Value;
 
-		if (Value > MainPlayerManager->GetCurrentPlayer()->GetAvailableStat())
+		if (Value > Me()->GetAvailableStat())
 		{
 			printf("스탯이 부족합니다.\n");
 			continue;
@@ -178,8 +273,8 @@ void GameManager::IncreaseStat(int InType)
 			printf("정상적인 값을 입력해 주세요.\n");
 			continue;
 		}
-		MainPlayerManager->GetCurrentPlayer()->SetAvailableStat(
-			MainPlayerManager->GetCurrentPlayer()->GetAvailableStat() - Value
+		Me()->SetAvailableStat(
+			Me()->GetAvailableStat() - Value
 		);
 		MainPlayerManager->SetPlayerStat(StatType, Value);
 		break;
@@ -192,7 +287,7 @@ void GameManager::MoveForward()
 	if (EncounterMonster())
 	{
 		printf("\n몬스터와 마주쳤습니다!\n");
-		Monster* CreatedMonster = EncounterMonsterManager->CreateMonster(*MainPlayerManager->GetCurrentPlayer(), GameMapManager->GetCurrentMap());
+		Monster* CreatedMonster = EncounterMonsterManager->CreateMonster(Me(), GameMapManager->GetCurrentMap());
 		StartBattle(CreatedMonster);
 	}
 }
@@ -200,7 +295,7 @@ void GameManager::MoveForward()
 void GameManager::StartBattle(Monster* InMonster)
 {
 	printf("전투 시작\n");
-
+	GameUiManager->ShowMonsterStatus(InMonster);
 	bool BattleFinish = false;
 	int Turn = 1;
 	GameTester Tester;
@@ -214,7 +309,11 @@ void GameManager::StartBattle(Monster* InMonster)
 			printf("%d만큼의 골드를 얻었다!\n", InMonster->GetDropGold());
 
 			Me()->SetExPoint(InMonster->GetDropExp());
-			Me()->SetMyGold(InMonster->GetDropGold());
+			if (Me()->GetExp() >= Me()->GetRequiredExpForLvUp())
+			{
+				LevelUpEvent();
+			}
+			Me()->SetMyGold(Me()->GetMyGold() + InMonster->GetDropGold());
 
 			delete InMonster;
 			InMonster = nullptr;
@@ -223,9 +322,10 @@ void GameManager::StartBattle(Monster* InMonster)
 			//Tester.ShowPlayerStatPoints(Me());
 			break;
 		}
-		else if (Me()->GetHitPoint() <= 0)
+
+		if (Me()->GetHitPoint() <= 0)
 		{
-			printf("패배..");
+			printf("패배..\n");
 			break;
 		}
 
@@ -245,6 +345,8 @@ void GameManager::StartBattle(Monster* InMonster)
 
 int GameManager::TurnCalculator(Monster* InMonster, int InTurn)
 {
+	// 액터의 스피드 * 현재 턴 후 더 높은 수치를 가진 액터의 턴
+	// 만약 수치가 100을 넘을 경우 100을 뺀 후 수치 비교
 	int PlayerSpeed = Me()->GetSpeed() * InTurn;
 	int MonsterSpeed = InMonster->GetSpeed() * InTurn;
 	if (PlayerSpeed == MonsterSpeed)
@@ -272,12 +374,16 @@ bool GameManager::PlayerTurn(Monster* InMonster)
 	printf("현재 체력 : %d/%d\n", Me()->GetHitPoint(), Me()->GetFullHitPoint());
 	int Flag = 0;
 	string sFlag = "";
-	sFlag = GameUiManager->ShowBattleField(*InMonster);
+	sFlag = GameUiManager->ShowBattleField(InMonster);
 	Flag = stoi(sFlag);
+	if (Flag >= 3 || Flag <= 0)
+	{
+		Flag = 1;
+	}
 	switch (Flag)
 	{
 	case 1:
-		MainPlayerManager->GetCurrentPlayer()->Attack(InMonster, CalculateDamage());
+		Me()->Attack(InMonster, CalculateDamage());
 		break;
 	case 2:
 		return true;
@@ -288,8 +394,8 @@ bool GameManager::PlayerTurn(Monster* InMonster)
 
 void GameManager::MonsterTurn(Monster* InMonster)
 {
-	printf("%s의 공격!", InMonster->GetName().c_str());
-	InMonster->Attack(MainPlayerManager->GetCurrentPlayer(), CalculateMonsterDamage(InMonster));
+	printf("%s의 공격!\n", InMonster->GetName().c_str());
+	InMonster->Attack(Me(), CalculateMonsterDamage(InMonster));
 }
 
 int GameManager::CalculateDamage()
@@ -297,9 +403,9 @@ int GameManager::CalculateDamage()
 	// 크리티컬 공격일 경우 GetAttackPoint() * GetCriticalDamageRate() 리턴
 	// 일반 공격일 경우 GetAttackPoint() 리턴
 	return IsCritical()
-		? MainPlayerManager->GetCurrentPlayer()->GetAttackPoint()
-		* MainPlayerManager->GetCurrentPlayer()->GetCriticalDamageRate()
-		: MainPlayerManager->GetCurrentPlayer()->GetAttackPoint();
+		? Me()->GetAttackPoint()
+		* Me()->GetCriticalDamageRate()
+		: Me()->GetAttackPoint();
 }
 
 int GameManager::CalculateMonsterDamage(Monster* InMonster)
@@ -314,7 +420,7 @@ int GameManager::CalculateMonsterDamage(Monster* InMonster)
 
 bool GameManager::IsCritical()
 {
-	if (PosibilityGenerator(MainPlayerManager->GetCurrentPlayer()->GetCriticalChance()))
+	if (PosibilityGenerator(Me()->GetCriticalChance()))
 	{
 		printf("Critical Hit!!\n");
 		return true;
@@ -330,6 +436,15 @@ bool GameManager::IsMonsterCritical(Monster* InMonster)
 		return true;
 	}
 	return false;
+}
+
+void GameManager::LevelUpEvent()
+{
+	printf("레벨업!!\n");
+	Me()->SetLevel(Me()->GetLevel() + 1);
+	Me()->SetRequiredExpForLvUp();
+	Me()->SetAvailableStat(Me()->GetStatValue());
+	HealingPotion->SetPotionLevel(Me()->GetLevel());
 }
 
 bool GameManager::EncounterMonster()

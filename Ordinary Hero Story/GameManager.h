@@ -6,12 +6,14 @@
 #include "Actor.h"
 #include "Player.h"
 #include "Monster.h"
+#include "Potion.h"
 
 class GameManager
 {
 public:
 	GameManager() 
-		: MainPlayerManager(new PlayerManager()),
+		: HealingPotion(new Potion()),
+		MainPlayerManager(new PlayerManager()),
 		EncounterMonsterManager(new MonsterManager()),
 		GameUiManager(new UiManager()),
 		GameMapManager(new MapManager())
@@ -21,7 +23,9 @@ public:
 	void GameStart();
 	void RunGame();
 	bool EnterVilage();
-	bool EnterField();
+	void MoveToBlackSmith(int InChoice);
+	void MoveToPotionMarket(int InChoice);
+	bool EnterField(Field InField);
 	void IncreaseStat(int InType);
 	void MoveForward();
 	bool EncounterMonster();
@@ -33,6 +37,7 @@ public:
 	int CalculateMonsterDamage(Monster* InMonster);
 	bool IsCritical();
 	bool IsMonsterCritical(Monster* InMonster);
+	void LevelUpEvent();
 
 	bool PosibilityGenerator(int InPercentage);
 
@@ -48,7 +53,7 @@ public:
 			return new Player();
 		}
 	}
-
+	Potion* HealingPotion;
 	PlayerManager* MainPlayerManager;
 	MonsterManager* EncounterMonsterManager;
 	UiManager* GameUiManager;
