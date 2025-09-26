@@ -106,7 +106,7 @@ void GameTester::UpgradeTest(PlayerManager* InMainPlayerManager, Player* InPlaye
 void GameTester::SetCheat(Player* InPlayer)
 {
 	printf("Cheat Mode!\n");
-	InPlayer->SetLevel(9);
+	InPlayer->SetLevel(50);
 	InPlayer->SetFullHitPoint(999);
 	InPlayer->SetHitPoint(999);
 	InPlayer->SetAttackPoint(999);

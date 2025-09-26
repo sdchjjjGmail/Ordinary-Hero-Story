@@ -42,6 +42,8 @@ public:
 
 	bool PosibilityGenerator(int InPercentage);
 
+	void ShowEnding();
+
 	Player* Me()
 	{
 		if (MainPlayerManager != nullptr && MainPlayerManager->GetCurrentPlayer() != nullptr)

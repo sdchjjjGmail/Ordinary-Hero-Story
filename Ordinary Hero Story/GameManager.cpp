@@ -36,11 +36,8 @@ void GameManager::RunGame()
 
 bool GameManager::EnterVilage()
 {
-	printf("마을에 입장했습니다.\n");
-	printf("이곳에서는 장비 강화와 물약 구매가 가능하며,\n");
-
-	GameTester Tester;
-	Tester.SetPlayerArtifactList(Me());
+	//GameTester Tester;
+	//Tester.SetPlayerArtifactList(Me());
 
 	GameMapManager->SetCurrentMap(Field::Vilage);
 	bool Out = false;
@@ -61,7 +58,7 @@ bool GameManager::EnterVilage()
 			break;
 		case 3:
 			// 장비 확인
-			GameUiManager->ShowWearings(Me());
+			GameUiManager->ShowWearings(Me(), HealingPotion);
 			break;
 		case 4:
 			// 대장간 입장 및 장비 강화
@@ -204,7 +201,7 @@ bool GameManager::EnterField(Field InField)
 			break;
 		case 2:
 			// 장비 확인
-			GameUiManager->ShowWearings(Me());
+			GameUiManager->ShowWearings(Me(), HealingPotion);
 			break;
 		case 3:
 			// 스탯포인트 확인 및 사용
@@ -238,6 +235,15 @@ bool GameManager::EnterField(Field InField)
 
 void GameManager::IncreaseStat(int InType)
 {
+	if (InType == 0)
+	{
+		return;
+	}
+	if (InType < 0 || InType > 5)
+	{
+		printf("\n유효하지 않은 스탯 선택입니다.\n\n");
+		return;
+	}
 	Stats StatType = Stats::HitPoint;
 	switch (InType)
 	{
@@ -307,7 +313,8 @@ void GameManager::StartBattle(Monster* InMonster)
 	{
 		if (InMonster->GetHitPoint() <= 0)
 		{
-			printf("승리!!\n");
+			printf("\n승리!!\n");
+
 			printf("%d만큼의 경험치를 얻었다!\n", InMonster->GetDropExp());
 			printf("%d만큼의 골드를 얻었다!\n", InMonster->GetDropGold());
 
@@ -320,6 +327,11 @@ void GameManager::StartBattle(Monster* InMonster)
 
 			delete InMonster;
 			InMonster = nullptr;
+
+			if (GameMapManager->GetCurrentMap() == Field::BossField)
+			{
+				ShowEnding();
+			}
 
 			//Tester.ShowPlayerStatus(Me());
 			//Tester.ShowPlayerStatPoints(Me());
@@ -485,4 +497,10 @@ bool GameManager::PosibilityGenerator(int InPercentage)
 	std::uniform_int_distribution<> dist(0, 99);
 
 	return dist(gen) < InPercentage;
+}
+
+void GameManager::ShowEnding()
+{
+	GameUiManager->ShowEnding(Me());
+	EnterVilage();
 }

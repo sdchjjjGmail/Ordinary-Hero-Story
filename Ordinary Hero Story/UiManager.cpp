@@ -9,6 +9,9 @@ string UiManager::ShowVilageUi(Player* InPlayer)
 	
 	while (!IsValidDecision(Input, false))
 	{
+		printf("\n");
+		printf("마을에 입장했습니다.\n");
+		printf("이곳에서는 장비 강화와 물약 구매가 가능합니다.\n");
 		printf("----------마을----------\n");
 		printf("1. 스테이터스\n");
 		printf("2. 스탯 확인\n");
@@ -26,7 +29,7 @@ string UiManager::ShowVilageUi(Player* InPlayer)
 		}
 		if (InPlayer->GetLevel() >= 30)
 		{
-			printf("9. 보스 도전\n");
+			printf("9. 보스 필드\n");
 		}
 		printf("0. 게임 종료\n");
 		cin >> Input;
@@ -145,35 +148,52 @@ string UiManager::ShowStatPoints(Player* InPlayer)
 		printf("3. 방어력 : +%d\n", InPlayer->GetDefencePointStat());
 		printf("4. 속도 : +%d\n", InPlayer->GetSpeedStat());
 		printf("5. 크리티컬 확률 : +%d\n", InPlayer->GetCriticalChanceStat());
-		printf("스탯포인트 : %d\n", InPlayer->GetAvailableStat());
+		printf("0. 나가기\n");
+		printf("\n스탯포인트 : %d\n", InPlayer->GetAvailableStat());
+		printf("\n");
 		printf("올리고 싶은 능력치를 선택해 주세요 : ");
 		cin >> Input;
 	}
 	return Input;
 }
 
-void UiManager::ShowWearings(Player* InPlayer)
+void UiManager::ShowWearings(Player* InPlayer, Potion* InPotion)
 {
 	printf("\n**장비 정보**\n");
 	printf("\n무기 정보\n");
-	printf("Upgraded : %d\n", InPlayer->GetPlayerWeapon()->GetUpgradeLevel());
-	printf("AP : %d\n", InPlayer->GetPlayerWeapon()->GetAttackPoint());
+	printf("강화 단계 : %d\n", InPlayer->GetPlayerWeapon()->GetUpgradeLevel());
+	printf("공격력 : %d\n", InPlayer->GetPlayerWeapon()->GetAttackPoint());
 	printf("강화 비용 : %d\n", InPlayer->GetPlayerWeapon()->GetRequiredGoldForUpgrade());
 
-	printf("\nArmor Info\n");
+	printf("\n방어구 정보\n");
 	printf("강화 단계 : %d\n", InPlayer->GetPlayerArmor()->GetUpgradeLevel());
 	printf("방어력 : %d\n", InPlayer->GetPlayerArmor()->GetDefencePoint());
 	printf("강화 비용 : %d\n", InPlayer->GetPlayerArmor()->GetRequiredGoldForUpgrade());
 
+	printf("\n포션 정보\n");
+	printf("물약 레벨 : %d\n", InPotion->GetPotionLevel());
+	printf("힐량 : %d\n", InPotion->GetHealAmount());
+	printf("수량 : %d\n", InPlayer->GetPotionCount());
+
 	if (InPlayer->GetArtifactList().size() != 0)
 	{
-		printf("\nArtifact List\n");
+		printf("\n아티팩트 리스트\n");
 		for (int i = 0; i < InPlayer->GetArtifactList().size(); i++)
 		{
 			printf("이름 : %s\n", InPlayer->GetArtifactList().at(i).GetName().c_str());
 			printf("모든 능력치%d 증가\n\n", InPlayer->GetArtifactList().at(i).GetLevel());
 		}
 	}
+	printf("\n");
+}
+
+void UiManager::ShowEnding(Player* InPlayer)
+{
+	string Exit = "";
+	printf("\n축하합니다!!\n");
+	printf("마침내 모든 맵을 정복하고 보스를 쓰러뜨렸습니다!\n");
+	printf("\n*****계속하려면 아무 버튼이나 입력하여 마을로 돌아가세요*****\n");
+	cin >> Exit;
 }
 
 bool UiManager::IsValidDecision(string InValue, bool IsField)
