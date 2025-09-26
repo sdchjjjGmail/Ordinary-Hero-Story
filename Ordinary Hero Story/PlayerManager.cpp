@@ -20,6 +20,8 @@ void PlayerManager::SetArmor(Armor* InArmor)
 
 void PlayerManager::AddArtifact(Artifact InArtifact)
 {
+	GetCurrentPlayer()->AddPlayerArtifact(InArtifact);
+	SetAllStats(InArtifact.GetLevel());
 }
 
 void PlayerManager::Attack(Monster* InTarget)
@@ -128,6 +130,16 @@ void PlayerManager::UsePotion(Potion* InPotion)
 	}
 }
 
+void PlayerManager::SetAllStats(int InStat)
+{
+	GetCurrentPlayer()->SetFullHitPoint(GetCurrentPlayer()->GetFullHitPoint() + InStat);
+	GetCurrentPlayer()->SetHitPoint(GetCurrentPlayer()->GetHitPoint() + InStat);
+	GetCurrentPlayer()->SetAttackPoint(GetCurrentPlayer()->GetAttackPoint() + InStat);
+	GetCurrentPlayer()->SetDefencePoint(GetCurrentPlayer()->GetDefencePoint() + InStat);
+	GetCurrentPlayer()->SetSpeed(GetCurrentPlayer()->GetSpeed() + InStat);
+	GetCurrentPlayer()->SetCriticalChance(GetCurrentPlayer()->GetCriticalChance() + InStat);
+}
+
 //void PlayerManager::SetPlayerCriticalDamageRate()
 //{
 //	GetCurrentPlayer()->SetCriticalDamageRate(
@@ -146,7 +158,7 @@ Armor* PlayerManager::GetArmor()
 	return GetCurrentPlayer()->GetPlayerArmor();
 }
 
-Artifact PlayerManager::GetArtifact()
+std::vector<Artifact> PlayerManager::GetArtifact()
 {
-	return Artifact();
+	return CurrentPlayer->GetArtifactList();
 }

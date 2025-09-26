@@ -9,7 +9,7 @@ public:
 	void ShowPlayerStatus(Player* InPlayer);
 	void ShowPlayerStatPoints(Player* InPlayer);
 	void ShowPlayerWearingList(Player* InPlayer);
-	void ShowPlayerArtifactList(Player* InPlayer);
+	void SetPlayerArtifactList(Player* InPlayer);
 	void SetStatTest(PlayerManager* InMainPlayerManager, Player* InPlayer, Stats InType, int InStat);
 	void UpgradeTest(PlayerManager* InMainPlayerManager, Player* InPlayer, int InUpgradeCount);
 	void SetCheat(Player* InPlayer);

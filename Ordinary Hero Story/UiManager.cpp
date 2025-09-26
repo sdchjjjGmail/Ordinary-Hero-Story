@@ -87,19 +87,19 @@ string UiManager::ShowPotionMarket(Potion* InPotion)
 	return Input;
 }
 
-string UiManager::ShowBattleField(Monster* InMonster)
+string UiManager::ShowBattleField(Player* InPlayer, Monster* InMonster)
 {
 	string Input = "";
 	
 	while (!IsValidDecision(Input, false))
 	{
 		printf("\n");
-		printf("%s\n", InMonster->GetName().c_str());
-		printf("유효하지 않은 값 입력 시 자동으로 공격합니다.\n");
+		printf("내 체력 : %d/%d\n", InPlayer->GetHitPoint(), InPlayer->GetFullHitPoint());
+		printf("%s의 남은 체력 : %d\n", InMonster->GetName().c_str(), InMonster->GetHitPoint());
 		printf("----------------------------\n");
 		printf("1. 공격\n");
 		printf("2. 도망\n");
-		printf("\n");
+		printf("\n유효하지 않은 값 입력 시 자동으로 공격합니다 : ");
 		cin >> Input;
 	}
 
@@ -108,8 +108,9 @@ string UiManager::ShowBattleField(Monster* InMonster)
 
 void UiManager::ShowMonsterStatus(Monster* InMonster)
 {
+	printf("\n%s\n", InMonster->GetName().c_str());
 	printf("Level : %d\n", InMonster->GetLevel());
-	printf("남은 체력 : %d\n", InMonster->GetHitPoint());
+	printf("체력 : %d\n", InMonster->GetHitPoint());
 	printf("공격력 : %d\n", InMonster->GetAttackPoint());
 	printf("방어력 : %d\n", InMonster->GetDefencePoint());
 	printf("속도 : %d\n", InMonster->GetSpeed());
@@ -153,18 +154,27 @@ string UiManager::ShowStatPoints(Player* InPlayer)
 
 void UiManager::ShowWearings(Player* InPlayer)
 {
-	printf("\nWeapon Info\n");
+	printf("\n**장비 정보**\n");
+	printf("\n무기 정보\n");
 	printf("Upgraded : %d\n", InPlayer->GetPlayerWeapon()->GetUpgradeLevel());
 	printf("AP : %d\n", InPlayer->GetPlayerWeapon()->GetAttackPoint());
-	printf("Gold For Upgrade : %d\n", InPlayer->GetPlayerWeapon()->GetRequiredGoldForUpgrade());
+	printf("강화 비용 : %d\n", InPlayer->GetPlayerWeapon()->GetRequiredGoldForUpgrade());
 
 	printf("\nArmor Info\n");
-	printf("Upgraded : %d\n", InPlayer->GetPlayerArmor()->GetUpgradeLevel());
-	printf("DP : %d\n", InPlayer->GetPlayerArmor()->GetDefencePoint());
-	printf("Gold For Upgrade : %d\n", InPlayer->GetPlayerArmor()->GetRequiredGoldForUpgrade());
+	printf("강화 단계 : %d\n", InPlayer->GetPlayerArmor()->GetUpgradeLevel());
+	printf("방어력 : %d\n", InPlayer->GetPlayerArmor()->GetDefencePoint());
+	printf("강화 비용 : %d\n", InPlayer->GetPlayerArmor()->GetRequiredGoldForUpgrade());
+
+	if (InPlayer->GetArtifactList().size() != 0)
+	{
+		printf("\nArtifact List\n");
+		for (int i = 0; i < InPlayer->GetArtifactList().size(); i++)
+		{
+			printf("이름 : %s\n", InPlayer->GetArtifactList().at(i).GetName().c_str());
+			printf("모든 능력치%d 증가\n\n", InPlayer->GetArtifactList().at(i).GetLevel());
+		}
+	}
 }
-
-
 
 bool UiManager::IsValidDecision(string InValue, bool IsField)
 {

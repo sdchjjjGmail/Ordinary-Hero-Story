@@ -7,6 +7,7 @@
 #include "ICanBattle.h"
 #include "Monster.h"
 #include "Potion.h"
+#include <vector>
 
 class PlayerManager
 {
@@ -32,6 +33,7 @@ public:
 	//void SetPlayerCriticalDamageRate();
 
 	void UsePotion(Potion* InPotion);
+	void SetAllStats(int InStat);
 
 	Player* GetCurrentPlayer()
 	{
@@ -39,7 +41,7 @@ public:
 	}
 	Weapon* GetWeapon();
 	Armor* GetArmor();
-	Artifact GetArtifact();
+	std::vector<Artifact> GetArtifact();
 
 private:
 	Player* CurrentPlayer;

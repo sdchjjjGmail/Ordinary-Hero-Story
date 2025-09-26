@@ -37,10 +37,23 @@ void GameTester::ShowPlayerWearingList(Player* InPlayer)
 	printf("Upgraded : %d\n", InPlayer->GetPlayerArmor()->GetUpgradeLevel());
 	printf("DP : %d\n", InPlayer->GetPlayerArmor()->GetDefencePoint());
 	printf("Gold For Upgrade : %d\n", InPlayer->GetPlayerArmor()->GetRequiredGoldForUpgrade());
+
+	if (InPlayer->GetArtifactList().size() != 0)
+	{
+		printf("\nArtifact List\n");
+		for (int i = 0; i < InPlayer->GetArtifactList().size(); i++)
+		{
+			printf("이름 : %s\n", InPlayer->GetArtifactList().at(i).GetName().c_str());
+			printf("모든 능력치%d 증가\n\n", InPlayer->GetArtifactList().at(i).GetLevel());
+		}
+	}
 }
 
-void GameTester::ShowPlayerArtifactList(Player* InPlayer)
+void GameTester::SetPlayerArtifactList(Player* InPlayer)
 {
+	InPlayer->AddPlayerArtifact(Artifact("Test Artifact1", 5));
+	InPlayer->AddPlayerArtifact(Artifact("Test Artifact2", 10));
+	InPlayer->AddPlayerArtifact(Artifact("Test Artifact3", 1));
 }
 
 void GameTester::SetStatTest(PlayerManager* InMainPlayerManager, Player* InPlayer, Stats InType, int InStat)
@@ -87,13 +100,13 @@ void GameTester::UpgradeTest(PlayerManager* InMainPlayerManager, Player* InPlaye
 		InMainPlayerManager->SetArmor(InMainPlayerManager->GetArmor()->Upgrade());
 	}
 }
-
+ 
 // 테스트용 치트 모드
 // 캐릭터의 전반적인 능력치와 골드 대폭 증가
 void GameTester::SetCheat(Player* InPlayer)
 {
 	printf("Cheat Mode!\n");
-	InPlayer->SetLevel(50);
+	InPlayer->SetLevel(9);
 	InPlayer->SetFullHitPoint(999);
 	InPlayer->SetHitPoint(999);
 	InPlayer->SetAttackPoint(999);

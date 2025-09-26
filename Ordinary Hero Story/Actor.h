@@ -112,7 +112,10 @@ public:
 	}
 	void SetCriticalChance(int InCriticalChance)
 	{
-		CriticalChance = InCriticalChance;
+		if (CriticalChance < 100)
+		{
+			CriticalChance = InCriticalChance;
+		}
 	}
 	//void SetCriticalDamageRate(int InCriticalDamageRate)
 	//{

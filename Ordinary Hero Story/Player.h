@@ -105,9 +105,9 @@ public:
 	{
 		PlayerArmor = *InArmor;
 	}
-	void AddPlayerArtifact(Artifact* InArtifact)
+	void AddPlayerArtifact(Artifact InArtifact)
 	{
-		ArtifactList.push_back(*InArtifact);
+		ArtifactList.push_back(InArtifact);
 	}
 
 private:

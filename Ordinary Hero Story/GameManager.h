@@ -38,6 +38,7 @@ public:
 	bool IsCritical();
 	bool IsMonsterCritical(Monster* InMonster);
 	void LevelUpEvent();
+	void TakeArtifact(int InLevel);
 
 	bool PosibilityGenerator(int InPercentage);
 

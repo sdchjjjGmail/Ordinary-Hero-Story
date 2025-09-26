@@ -39,6 +39,9 @@ bool GameManager::EnterVilage()
 	printf("마을에 입장했습니다.\n");
 	printf("이곳에서는 장비 강화와 물약 구매가 가능하며,\n");
 
+	GameTester Tester;
+	Tester.SetPlayerArtifactList(Me());
+
 	GameMapManager->SetCurrentMap(Field::Vilage);
 	bool Out = false;
 	bool GameEnd = false;
@@ -361,7 +364,7 @@ int GameManager::TurnCalculator(Monster* InMonster, int InTurn)
 	{
 		MonsterSpeed -= 100;
 	}
-	printf("PlayerSpeed : %d, MonsterSpeed : %d\n", PlayerSpeed, MonsterSpeed);
+	printf("\nPlayerSpeed : %d, MonsterSpeed : %d\n", PlayerSpeed, MonsterSpeed);
 	if (PlayerSpeed > MonsterSpeed)
 	{
 		return 1;
@@ -371,10 +374,10 @@ int GameManager::TurnCalculator(Monster* InMonster, int InTurn)
 
 bool GameManager::PlayerTurn(Monster* InMonster)
 {
-	printf("현재 체력 : %d/%d\n", Me()->GetHitPoint(), Me()->GetFullHitPoint());
+	
 	int Flag = 0;
 	string sFlag = "";
-	sFlag = GameUiManager->ShowBattleField(InMonster);
+	sFlag = GameUiManager->ShowBattleField(Me(), InMonster);
 	Flag = stoi(sFlag);
 	if (Flag >= 3 || Flag <= 0)
 	{
@@ -394,7 +397,7 @@ bool GameManager::PlayerTurn(Monster* InMonster)
 
 void GameManager::MonsterTurn(Monster* InMonster)
 {
-	printf("%s의 공격!\n", InMonster->GetName().c_str());
+	printf("\n%s의 공격!\n", InMonster->GetName().c_str());
 	InMonster->Attack(Me(), CalculateMonsterDamage(InMonster));
 }
 
@@ -445,6 +448,27 @@ void GameManager::LevelUpEvent()
 	Me()->SetRequiredExpForLvUp();
 	Me()->SetAvailableStat(Me()->GetStatValue());
 	HealingPotion->SetPotionLevel(Me()->GetLevel());
+	if (Me()->GetLevel() % 10 == 0 && Me()->GetLevel() < 31)
+	{
+		TakeArtifact(Me()->GetLevel());
+	}
+}
+
+void GameManager::TakeArtifact(int InLevel)
+{
+	printf("\n축하합니다! 아티팩트를 획득합니다!\n");
+	switch (InLevel)
+	{
+	case 10:
+		MainPlayerManager->AddArtifact(Artifact("10레벨 축하 아티팩트", 10));
+		break;
+	case 20:
+		MainPlayerManager->AddArtifact(Artifact("20레벨 축하 아티팩트", 20));
+		break;
+	case 30:
+		MainPlayerManager->AddArtifact(Artifact("30레벨 축하 아티팩트", 30));
+		break;
+	}
 }
 
 bool GameManager::EncounterMonster()
