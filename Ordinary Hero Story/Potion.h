@@ -30,8 +30,8 @@ public:
 	}
 
 private:
-	static constexpr int PriceIncrease = 10;
-	static constexpr int HealIncrease = 20;
+	static constexpr int PriceIncrease = 3;
+	static constexpr int HealIncrease = 15;
 
 	void SetPrice()
 	{

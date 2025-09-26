@@ -112,6 +112,7 @@ void GameManager::MoveToBlackSmith(int InChoice)
 		);
 		
 		Me()->GetPlayerWeapon()->Upgrade();
+		MainPlayerManager->SetWeapon(Me()->GetPlayerWeapon());
 	}
 
 	if (InChoice == 2)
@@ -127,6 +128,7 @@ void GameManager::MoveToBlackSmith(int InChoice)
 		);
 
 		Me()->GetPlayerArmor()->Upgrade();
+		MainPlayerManager->SetArmor(Me()->GetPlayerArmor());
 	}
 }
 
