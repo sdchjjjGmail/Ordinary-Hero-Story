@@ -57,7 +57,7 @@ GameManager 제외한 모든 클래스의 멤버 변수는 private으로 설정.
    - ICanBattle 인터페이스를 통해 전투를 진행한다.
  - Monster : Actor, ICanBattle
    - 몬스터 클래스
-   - 배틀 발생 시 필드에 종류 따라 몬스터가 생성되고, 배틀 종료 시 해제된다.
+   - 배틀 발생 시 필드 종류에 따라 몬스터가 생성되고, 배틀 종료 시 해제된다.
    - Player와 마차가지로 ICanBattle 인터페이스를 통해 전투를 진행한다.
  - GameManager
     - 전반적인 게임의 흐름을 관리하는 클래스.
