@@ -6,14 +6,6 @@
 void GameManager::GameStart()
 {
 	RunGame();
-
-	//GameTester Tester;
-	//Tester.UpgradeTest(&MainPlayerManager, MainPlayer, 3);
-	//Tester.SetStatTest(&MainPlayerManager, MainPlayer, Stats::Speed, 5);
-	//Tester.ShowPlayerStatus(MainPlayer);
-	//Tester.ShowPlayerStatPoints(MainPlayer);
-	//Tester.ShowPlayerWearingList(MainPlayer);
-	//Tester.ShowPlayerArtifactList(MainPlayer);
 }
 
 void GameManager::RunGame()
@@ -36,9 +28,6 @@ void GameManager::RunGame()
 
 bool GameManager::EnterVilage()
 {
-	//GameTester Tester;
-	//Tester.SetPlayerArtifactList(Me());
-
 	GameMapManager->SetCurrentMap(Field::Vilage);
 	bool Out = false;
 	bool GameEnd = false;
@@ -168,7 +157,7 @@ bool GameManager::EnterField(Field InField)
 {
 	printf("\n필드에 입장했습니다!\n");
 	printf("d 키를 입력하여 앞으로 이동하세요.\n");
-	//GameMapManager->SetCurrentMap(InField);
+
 	bool Out = false;
 	bool GameEnd = false;
 
@@ -333,8 +322,6 @@ void GameManager::StartBattle(Monster* InMonster)
 				ShowEnding();
 			}
 
-			//Tester.ShowPlayerStatus(Me());
-			//Tester.ShowPlayerStatPoints(Me());
 			break;
 		}
 
@@ -425,8 +412,6 @@ int GameManager::CalculateDamage()
 
 int GameManager::CalculateMonsterDamage(Monster* InMonster)
 {
-	// 크리티컬 공격일 경우 GetAttackPoint() * GetCriticalDamageRate() 리턴
-	// 일반 공격일 경우 GetAttackPoint() 리턴
 	return IsMonsterCritical(InMonster)
 		? InMonster->GetAttackPoint()
 		* InMonster->GetCriticalDamageRate()

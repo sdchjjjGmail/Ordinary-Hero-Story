@@ -1,5 +1,4 @@
 #pragma once
-#include "Item.h"
 #include "IUpgradable.h"
 
 class Armor : public IUpgradable
@@ -46,7 +45,7 @@ public:
 	}
 
 private:
-	static constexpr int UpgradeValue = 4;
+	static constexpr int UpgradeValue = 5;
 	int DefencePoint;
 	int UpgradeLevel;
 	int RequiredGoldForUpgrade;

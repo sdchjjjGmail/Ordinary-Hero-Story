@@ -1,5 +1,4 @@
 #pragma once
-#include "Item.h"
 #include "IUpgradable.h"
 
 class Weapon : public IUpgradable

@@ -129,14 +129,11 @@
     <ClInclude Include="GameManager.h" />
     <ClInclude Include="GameTester.h" />
     <ClInclude Include="ICanBattle.h" />
-    <ClInclude Include="Item.h" />
-    <ClInclude Include="ItemManager.h" />
     <ClInclude Include="IUpgradable.h" />
     <ClInclude Include="Fields.h" />
     <ClInclude Include="MapManager.h" />
     <ClInclude Include="MonsterManager.h" />
     <ClInclude Include="Monster.h" />
-    <ClInclude Include="Npc.h" />
     <ClInclude Include="Player.h" />
     <ClInclude Include="PlayerManager.h" />
     <ClInclude Include="Potion.h" />
@@ -146,20 +143,13 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Armor.cpp" />
-    <ClCompile Include="Artifact.cpp" />
     <ClCompile Include="GameManager.cpp" />
     <ClCompile Include="GameTester.cpp" />
-    <ClCompile Include="ItemManager.cpp" />
     <ClCompile Include="Main.cpp" />
-    <ClCompile Include="Map.cpp" />
-    <ClCompile Include="MapManager.cpp" />
     <ClCompile Include="MonserManager.cpp" />
     <ClCompile Include="Monster.cpp" />
-    <ClCompile Include="Npc.cpp" />
     <ClCompile Include="Player.cpp" />
     <ClCompile Include="PlayerManager.cpp" />
-    <ClCompile Include="Potion.cpp" />
-    <ClCompile Include="StringManager.cpp" />
     <ClCompile Include="UiManager.cpp" />
     <ClCompile Include="Weapon.cpp" />
   </ItemGroup>

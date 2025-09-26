@@ -161,12 +161,12 @@ void UiManager::ShowWearings(Player* InPlayer, Potion* InPotion)
 {
 	printf("\n**장비 정보**\n");
 	printf("\n무기 정보\n");
-	printf("강화 단계 : %d\n", InPlayer->GetPlayerWeapon()->GetUpgradeLevel());
+	printf("강화 단계 : +%d\n", InPlayer->GetPlayerWeapon()->GetUpgradeLevel());
 	printf("공격력 : %d\n", InPlayer->GetPlayerWeapon()->GetAttackPoint());
 	printf("강화 비용 : %d\n", InPlayer->GetPlayerWeapon()->GetRequiredGoldForUpgrade());
 
 	printf("\n방어구 정보\n");
-	printf("강화 단계 : %d\n", InPlayer->GetPlayerArmor()->GetUpgradeLevel());
+	printf("강화 단계 : +%d\n", InPlayer->GetPlayerArmor()->GetUpgradeLevel());
 	printf("방어력 : %d\n", InPlayer->GetPlayerArmor()->GetDefencePoint());
 	printf("강화 비용 : %d\n", InPlayer->GetPlayerArmor()->GetRequiredGoldForUpgrade());
 
