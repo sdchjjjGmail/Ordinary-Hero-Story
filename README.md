@@ -64,6 +64,7 @@ GameManager 제외한 모든 클래스의 멤버 변수는 private으로 설정.
     - 게임을 진행하는 동안 유지되어야 하는 클래스들을 프로그램 시작 시 동적으로 할당하여 가지고 있다.
     - 멤버 클래스 변수 : MapManager, PlayerManager, Potion, MonsterManager, UiManager
     - 게임이 진행되는 동안 각 멤버 클래스들을 통해 그 하위의 클래스들(Player, Monster 등)을 관리한다.
+    - 개발 초기에는 GameManager, PlayerManager 등 Manager 클래스를 모두 동등한 위치에 두고 상호작용 하려 하였으나 메모리 접근, 값 복사 등으로 인한 게임 이벤트/상태 관리에 어려움을 느껴 GameManger를 통해 각 클래스에 모두 접근이 가능하도록 설계 방식 수정.
  - PlayerManager
     - 플레이어의 상태를 관리하는 클래스
     - Player에 착용되는 장비, 스탯 적용 등 플레이어 관련 이벤트에 따른 로직은 이곳에서 처리하고 Player에 수치만 적용되도록 한다.
@@ -84,6 +85,7 @@ GameManager 제외한 모든 클래스의 멤버 변수는 private으로 설정.
     - 플레이의 흐름에 따라 변화하는 텍스트(사실상 UI) 묶음을 이 클래스에 함수단위(ShowVilageUi, ShowBattleField 등)로 보관해 놓고 상황에 맞춰 호출하여 사용한다.
  - MapManager
     - 현재 플레이어가 속해있는 맵 상태를 저장해 놓는 클래스
+    - 이곳에 Fields 정보를 저장하여 사용한다.
  - Weapon : IUpgradable
     - 플레이어가 사용하는 무기 클래스
     - IUpgradable 인터페이스를 통해 강화 실행.
@@ -97,7 +99,7 @@ GameManager 제외한 모든 클래스의 멤버 변수는 private으로 설정.
     - 게임 시작 시 GameManger에 의해 동적으로 생성되며, 소모품이지만 게임 내내 해제되지 않고 GameManager에 존재한다.
     - Player의 PotionCount를 통해 해당 포션의 사용을 통제하며, Player의 레벨에 따라 포션의 능력치, 가격도 증가한다.
     - 소모품처럼 보이도록 되어있지만 실질적으로는 플레이어의 장비와 같은 형태이다.
-    - 포션의 구매/사용에 따라 실시간으로 할당과 해제를 반복하기 보다 관리가 용이할 것 같아 위의 방식 채택.  
+    - 포션의 구매/사용에 따라 실시간으로 할당과 해제를 반복하기 보다 관리가 용이할 것 같아 위의 방식 채택.
  - Artifact
     - 플레이어의 모든 능력치를 올려주는 아티팩트 클래스.
     - Player클래스에서 vector를 통해 관리되며 현재는 최대 3개까지 얻을 수 있도록 설계
