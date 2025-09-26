@@ -44,6 +44,7 @@ public:
 
 	void ShowEnding();
 
+	// MainPlayerManager->GetCurrentPlayer()... 호출의 부담을 줄이기 위해 작성한 함수.
 	Player* Me()
 	{
 		if (MainPlayerManager != nullptr && MainPlayerManager->GetCurrentPlayer() != nullptr)
@@ -52,7 +53,7 @@ public:
 		}
 		else
 		{
-			// 게임 시작 직전 초기화를 진행 하기에 else로 빠질 수 없음
+			// 게임 시작 직전 초기화를 진행하기에 else로 빠질 수 없음
 			return new Player();
 		}
 	}
