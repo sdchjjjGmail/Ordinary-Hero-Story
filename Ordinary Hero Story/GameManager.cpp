@@ -329,6 +329,9 @@ void GameManager::StartBattle(Monster* InMonster)
 
 		if (Me()->GetHitPoint() <= 0)
 		{
+			delete InMonster;
+			InMonster = nullptr;
+
 			printf("ÆÐ¹è..\n");
 			break;
 		}
@@ -394,6 +397,8 @@ bool GameManager::PlayerTurn(Monster* InMonster)
 		Me()->Attack(InMonster, CalculateDamage());
 		break;
 	case 2:
+		delete InMonster;
+		InMonster = nullptr;
 		return true;
 		break;
 	}
